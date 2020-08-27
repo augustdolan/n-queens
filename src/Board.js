@@ -25,6 +25,7 @@
     },
 
     togglePiece: function(rowIndex, colIndex) {
+      debugger;
       this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
       this.trigger('change');
     },
@@ -78,31 +79,70 @@
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
+
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // set variable row to Access chessboard at rowIndex // rows helper function
+      let row = this.rows()[rowIndex];
+      // variable counter for ones
+      let counter = 0;
+      // iterate over row
+      for (let space of row) {
+        // if the value at that index is equal to one
+        if (space === 1) {
+          // increment our counter
+          counter++;
+          // if counter equals 2
+          if (counter === 2) {
+            return true;
+          }
+        }
+      }
+      return false;
+
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      for (let i = 0; i < this.get('n'); i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
-
-
 
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      // Every index within a row is a column
+      // If a 1 exists at any of the same indices as any other 1 within all rows
+      let counter = 0;
+      let rows = this.rows();
+
+      for (let i = 0; i < rows.length; i++) {
+        if (rows[i][colIndex] === 1) {
+          counter++;
+
+          if (counter === 2) {
+            return true;
+          }
+        }
+      }
+      return false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      // iterate over every possible column index
+      for (let i = 0; i < this.get('n'); i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
-
-
 
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
