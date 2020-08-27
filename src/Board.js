@@ -25,7 +25,6 @@
     },
 
     togglePiece: function(rowIndex, colIndex) {
-      debugger;
       this.get(rowIndex)[colIndex] = + !this.get(rowIndex)[colIndex];
       this.trigger('change');
     },
@@ -149,13 +148,53 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      let counter = 0;
+      let diagIndex = majorDiagonalColumnIndexAtFirstRow;
+      // access our rows by calling this.rows()
+      let rows = this.rows();
+
+      // begin iterating over our rows
+      for (let i = 0; i < rows.length; i++) {
+        // iterate over columns
+        for (let j = 0; j < rows[i].length; j++) {
+          // is this value equal to one?
+          if (rows[i][j] === 1) {
+            if (this._getFirstRowColumnIndexForMajorDiagonalOn(i, j) === diagIndex) {
+              counter++;
+              if (counter === 2) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      let furthestDiagonal = 0 - this.get('n');
+      for (let i = furthestDiagonal; i < this.get('n'); i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
+
+    // in chessboard
+
+    // key pieces
+      //check furthest left first row diagonal(bottom left to calculate)
+      // to calculate the furthest left first row index we do the first column index - last row index (0, n) (run func that finds the thing for bottom left)
+      // iterator to iterate over all possible first row start points
+
+
+    // out bool representing if any major diagonal conflicts exist
+
+    // justification this function will determine if a chessboard of any size has a queen conflict on the major diagonal
+
+    // explanation this function will calculate the furtherst left first row index diagonal origin, iterate through all first row diagonal origins, and determine if more than one piece rests on that diagonal
 
 
 
@@ -164,13 +203,39 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      let counter = 0;
+      let diagIndex = minorDiagonalColumnIndexAtFirstRow;
+      // access our rows by calling this.rows()
+      let rows = this.rows();
+
+      // begin iterating over our rows
+      for (let i = 0; i < rows.length; i++) {
+        // iterate over columns
+        for (let j = 0; j < rows[i].length; j++) {
+          // is this value equal to one?
+          if (rows[i][j] === 1) {
+            if (this._getFirstRowColumnIndexForMinorDiagonalOn(i, j) === diagIndex) {
+              counter++;
+              if (counter === 2) {
+                return true;
+              }
+            }
+          }
+        }
+      }
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
-    }
+      let furthestDiagonal = this.get('n') * 2;
+      for (let i = 0; i < furthestDiagonal; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
+    },
 
     /*--------------------  End of Helper Functions  ---------------------*/
 
