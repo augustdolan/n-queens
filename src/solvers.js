@@ -46,19 +46,60 @@ window.countNRooksSolutions = function(n) {
   for (let i = 0; i < n; i++) {
     glory.push(i);
   }
-  let rookChoices = decisionTree(glory)
-  solutionCount = countDecisions(rookChoices)
+  let rookChoices = decisionTree(glory);
+  solutionCount = countDecisions(rookChoices);
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  // set rows to solution.rows()
+  var test = n;
+  var queens = 0;
+  debugger;
+  var solution = new Board({n: n});
+  var rows = solution.rows();
+  while (queens < test) {
+    solution = new Board({n: n});
+    rows = solution.rows();
+    queens = 0;
+
+    var index = 0;
+
+    for (let i = 0; i < rows.length; i++) {
+      for (let j = index; j < rows[i].length; j++) {
+        // toggle a piece at this given index
+        solution.togglePiece(i, j);
+        queens++;
+        if (solution.hasAnyQueensConflicts()) {
+          solution.togglePiece(i, j);
+          queens--;
+        }
+      }
+    }
+    index++;
+  }
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+  debugger;
+  return rows;
 };
+
+// if we do not have a counter showing n, scrap the board and make a new one
+//
+
+// input: n
+
+// key pieces: consider any conflicts, build a board, iterate over the rows, togglePieces,
+
+//output: a matrix
+
+// justification: purpose of this function is to create an n x n board and return a single instance of a board, with n queens placed with no conflict.
+
+// explanation: Create a new board of n x n size, access the rows of that board, iterate over our rows, create a second layer of iteration to access columns, we will toggle the piece at that index, and check to see if that toggledpiece has any conflicts. If it does, we'll toggle that piece off, when this finishes we return the board.
+
+// visualized : woo!
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
