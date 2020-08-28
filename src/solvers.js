@@ -53,6 +53,7 @@ window.countNRooksSolutions = function(n) {
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
+<<<<<<< HEAD
 window.findNQueensSolution = function(n, currentRow = 0, board) {
   // if board undefined, new board
   board = board || new Board({n: n});
@@ -97,12 +98,53 @@ window.findNQueensSolution = function(n, currentRow = 0, board) {
 // visualized : woo!
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
-window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+window.countNQueensSolutions = function(n, board, currentRow = 0) {
+  // create a variable called counter
+  var count = 0;
+  // if board doesn't exist
+  board = board || new Board({n: n});
+  // set board equal to new board
 
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  return solutionCount;
+  // if currentRow equals n
+  if (currentRow === n) {
+  // ? check board valid
+    debugger;
+    if (board.hasAnyQueensConflicts()) {
+      return 0;
+    } else {
+      count++;
+      return count;
+
+    }
+  }
+  // set rows = board.rows
+  let rows = board.rows();
+  // iterate over rows at current row
+  for (let i = 0; i < rows[currentRow].length; i++) {
+    board.togglePiece(currentRow, i);
+    if (!board.hasAnyQueensConflicts()) {
+      count += countNQueensSolutions(n, board, currentRow + 1);
+    }
+    board.togglePiece(currentRow, i);
+  }
+
+  console.log('Number of solutions for ' + n + ' queens:', count);
+  return count;
 };
+
+
+// input: number
+
+// key pieces: check for conflicts, we need to keep track of solution count, recursive helper function, iteration, toggle pieces, recursion should return a number
+
+// output: a number representing all possible non conflicting boards
+
+// justification: this function calculates all possible solutions of a chessboard of n x n dimensions, representing n number of queens that are not in conflict
+
+// explanation: this function will create a board by passed in dimensions and a counter. It will then access every space on the board by iterating over rows and then an individual row and determine if there are conflicts when toggling pieces and if so, turning them off. Once a board is completed with no conflicts, we will incremet our solution count and then re-execute the same function until no further solutions
+
+// base case: solved
+
 
 
 
