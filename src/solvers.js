@@ -60,13 +60,12 @@ window.findNQueensSolution = function(n) {
   debugger;
   var solution = new Board({n: n});
   var rows = solution.rows();
-  while (queens < test) {
+  while (queens < n) {
     solution = new Board({n: n});
     rows = solution.rows();
     queens = 0;
 
     var index = 0;
-
     for (let i = 0; i < rows.length; i++) {
       for (let j = index; j < rows[i].length; j++) {
         // toggle a piece at this given index
@@ -82,7 +81,6 @@ window.findNQueensSolution = function(n) {
   }
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  debugger;
   return rows;
 };
 
